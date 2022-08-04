@@ -1,204 +1,916 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Predicting GDP per capita for countries using several factors</title>
-        <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='assets/favicon.ico')}}" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="{{url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
-    </head>
-    <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-            <div class="container px-4">
-                <a class="navbar-brand" href="#page-top">Country GDP predictor</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#services">Exploration</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#contact">Machine learning</a></li>
-                        <li class="nav-item"><a class = "nav-link" href="#Conclusion">Conclusion</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <!-- Header-->
-        <header class="bg-primary bg-gradient text-white">
-            <div class="container px-4 text-center">
-                <h1 class="fw-bolder">Predicting GDP per capita for countries using several factors</h1>
-                <p class="lead">A data science project by AI Camp students</p>
-                <a class="btn btn-lg btn-light" href="#about">See our work below</a>
-            </div>
-        </header>
-        <!-- About section-->
-        <section id="about">
-            <div class="container px-4">
-                <div class="row gx-4 justify-content-center">
-                    <div class="col-lg-8">
-                        <h2>What does the project do?
-                        </h2>
-                        <p class="lead">In our dataset, there is information on population height, literacy, infant mortality, etc... that correlate with each other in interesting ways. Our goal will be to predict the wealth of nations, which will be measured in GDP per capita. Looking at same characteristics of the dataset, the GDP per capita ranges from $500 to $55,100 and has a standard deviation of $9834</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Services section-->
-        <section class="bg-light" id="services">
-            <div class="container px-4">
-                <div class="row gx-4 justify-content-center">
-                    <div class="col-lg-8">
-                    <h1 id="top-level-heading">Exploration</h1><br/>
-                    </div>
-                    <div class="col-lg-8">
-                        <h3>Exploration of data: Correlation table heatmap</h3>
-                        <p class="lead">First, we created a correlation table to see how different features correlated with the wealth of nations. Some surprising results were that the number of phones per hundred people and male height in cm were highly correlated with GDP per capita. Meanwhile, birthrate and infant mortality were highly negatively correlated</p>
-                    <iframe width="900" height="900" title="Correlation Table of Features" src="{{url_for('static', filename='all_correlation_map.html')}}"></iframe> <br>
-                    </div>
-                    <div class="col-lg-8">
-                        <h3>Exploration of data: Scatterplots</h3>
-                        <p class="lead">Scatterplots clearly demonstrate to us more positive and negative trends in our data. Most surprising to us is that as agricultural goes to zero, GDP becomes exponentially higher.</p>
-                        <iframe width="700" height="700" title="Scatterplots of features in relation to GDP" src="{{url_for('static', filename='GDP scatterplots.html')}}"></iframe> <br><br>
-                    </div>
-                    <div class="col-lg-8">
-                        <h3>Visualization of crucial features</h3>
-                        <p class="lead">We isolated the above features that we saw as most important and turned them into their own correlation table, so that we can see how these crucial features affect wealth.</p>
-                        <iframe width="800" height="800" title="Crucial Features Hetmap" src="{{url_for('static', filename='crucial_features_heatmap.html')}}"></iframe>  
-                        <br>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Contact section-->
-        <section id="contact">
-            <div class="container px-4">
-                <div class="row gx-4 justify-content-center">
-                    <div class="col-lg-8">
-                        <h1>Machine Learning</h1></br>
-                    </div>
-                    <div class="col-lg-8">
-                        <h2>Linear Regression: Explanation</h2>
-                        <p class="lead">First, we want to try a baseline linear regression. Linear regression assumes that all features are have a linear relation with GDP per capita, and we can fit a line of best fit to predict future values</p>
-                        <img src="{{url_for('static', filename='images/LinearExplanation.png')}}" class="page-image" />
-                    </div>
 
-                    <div class="col-lg-8">
-                        <h2>Linear Regression: Results</h2>
-                        <p class="lead">Here we have a confusion matrix with the results of the linear regression applied on our testing dataset. A confusion matrix for a classification problem tells us the number of correct and incorrect predictions for every class (for example wealthy). For example, the model may have classified 10 countries with average GDP as average and classified 2 countries with average GDP incorrectly, shown in the below confusion matrix. Linear regression performed exceptionally well on countries with average GDP.</p>
-                        <iframe width="500" height="500" title="Linear Regression Confusion Matrix" src="{{url_for('static', filename='LinearRegressionCF.html')}}"></iframe>  
-                        <p class="lead">By calculating the total correct examples over all examples classified, we get an average accuracy of around 58%. Mean absolute error, or the average difference between predicted and actual GDP per capita, was $3299</p>
-                    </div>
-                    <div class="col-lg-8">
-                        <h2>Neural Networks: Explanation</h2>
-                        <p class="lead">Neural networks are one of the most powerful machine learning approaches for data with complicated patterns, but are more prone to overfitting to simple data.</p>
-                        <img src="{{url_for('static', filename='images/nn_explanation.png')}}" class="page-image" width="500"/>
-                    </div>
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-                    <div class="col-lg-8">
-                        <h2>Neutral Networks: Results</h2>
-                        <p class="lead">Looking at the confusion matrix below, the neural network performed much better on wealthy and very wealthy nations.</p>
-                        <iframe width="500" height="500" title="Neural Network Confusion Matrix" src="{{url_for('static', filename='NeuralNetworkCF_matrix.html')}}"></iframe>
-                        <p class="lead">For total accuracy, the NN performed at 64.4% accuracy in classification. Mean absolute error is $2311</p>
-                    </div>
-                    <div class="col-lg-8">
-                        <h2>K Nearest Neighbors: Explanation</h2>
-                        <p class="lead">K Nearest Neighbors looks at data points in the testing set and infers the classification based on similarity to other points of the same class in the training set.</p>
-                        <img src="{{url_for('static', filename='images/knn_explanation.jpeg')}}" class="page-image" width="500"/>
-                    </div>
-                    <div class="col-lg-8">
-                        <h2>K Nearest Neighbors: Results</h2>
-                        <p class="lead">Looking at our confusion matrix below, K Nearest Neighbors performed well on very wealthy and ver poor nations.</p>
-                        <iframe width="500" height="500" title="KNN Confusion Matrix" src="{{url_for('static', filename='KNN_CF_matrix.html')}}"></iframe>  
-                        <p class="lead">For total accuracy, the NN performed at 64.4% accuracy in classification. Mean absolute error is $2311</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="bg-light" id="Conclusion">
-            <div class="container px-4">
-                <div class="row gx-4 justify-content-center">
-                    <div class="col-lg-8">
-                    <h1 id="top-level-heading">Conclusion</h1><br/>
-                    </div>
-                    <div class="col-lg-8">
+  <title>Laptop Price Prediction</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 
-                        <p class="lead">In conclusion, neural networks clearly performed the best on our dataset for predicting GDP per capita. Positively correlated features like height and phone usage along with negatively correlated features like birthrate and agriculture helped us achieve these results. </p>
+  
+  <!-- Favicons -->
+  <link href="https://www.creativefabrica.com/wp-content/uploads/2020/09/12/navy-blue-realistic-laptop-vector-Graphics-5438142-1-1-580x387.png" rel="icon">
+  <link href="https://www.creativefabrica.com/wp-content/uploads/2020/09/12/navy-blue-realistic-laptop-vector-Graphics-5438142-1-1-580x387.png" rel="apple-touch-icon">
 
-                        <h3>So what?</h3>
-                            
-                        <p class="lead">So what is the significance of our project? Because we know which features are most correlated with a higher GDP country, we can identify both the factors that lead to countries with higher monetary value and also predict and then invest in countries with a high likelihood of future growth. </p>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-        <section style="margin-left: 80px; margin-right: 80px;" id="team">
-        <header class="bg-primary text-center py-5 mb-4">
-            <div class="container px-4">
-              <h1 class="fw-light text-white">Meet the Extraordinary AI Camp Team</h1>
-            </div>
-          </header>
+  <!-- Vendor CSS Files -->
+  <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+
+  <!-- Template Main CSS File -->
+  <link href="static/assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: BizLand - v3.8.1
+  * Template URL: https://bootstrapmade.com/bizland-bootstrap-business-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  </head>
+
+<body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <h1 class="logo"><a href="index.html"><span>Electric </span>Zombies</a></h1>
+      
+
+      
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo"><img src="static/assets/img/logo.png" alt=""></a>-->
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="#featured-services">About</a></li>
+          <li><a class="nav-link scrollto" href="#services">Data Cleansing</a></li>
+          <li><a class="nav-link scrollto " href="#portfolio">EDA</a></li>
+          <li><a class="nav-link scrollto " href="#mlmodels">ML Models</a></li>
+          <li><a class="nav-link scrollto" href="#predictions">Predictions</a></li>
+          <li><a class="nav-link scrollto" href="#team">Team</a></li>
           
-          <!-- Page Content -->
-          <div class="container px-4">
-            <div class="row">
-              <!-- Team Member 1 -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-0 shadow">
-                  <img src="{{url_for('static', filename='images/rohan_img.png')}}" class="card-img-top" alt="...">
-                  <div class="card-body text-center">
-                    <h5 class="card-title mb-0">Rohan Joshi</h5>
-                    <div class="card-text text-black-50">Web Developer</div>
-                  </div>
-                </div>
-              </div>
-              <!-- Team Member 2 -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-0 shadow">
-                  <img src="{{url_for('static', filename='images/alex_duffy_img.png')}}" height="330" class="card-img-top" alt="...">
-                  <div class="card-body text-center">
-                    <h5 class="card-title mb-0">Alex Duffy</h5>
-                    <div class="card-text text-black-50">Instructor</div>
-                  </div>
-                </div>
-              </div>
-              <!-- Team Member 3 -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-0 shadow">
-                  <img src="{{url_for('static', filename='images/mitchell_img.png')}}" height="350" class="card-img-top" alt="...">
-                  <div class="card-body text-center">
-                    <h5 class="card-title mb-0">Mitchell Cutts</h5>
-                    <div class="card-text text-black-50">Instructor</div>
-                  </div>
-                </div>
-              </div>
-              <!-- Team Member 4 -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-0 shadow">
-                  <img src="{{url_for('static', filename='images/cameron_jackson_img.jfif')}}" height="250" class="card-img-top" alt="...">
-                  <div class="card-body text-center">
-                    <h5 class="card-title mb-0">Cameron Jackson</h5>
-                    <div class="card-text text-black-50">Data Scientist</div>
-                  </div>
-                </div>
-              </div>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+  
+  
+  
+  
+
+
+  <!-- ======= Hero Section ======= -->
+    <section id="hero" class="d-flex align-items-center">
+    <div class="container" data-aos="zoom-out" data-aos-delay="100">
+      <h1>Laptop Price <span> Prediction</span></h1>
+      <h2>A Machine Learning Application by Electric Zombies</h2>
+      <div class="d-flex">
+        <a href="#featured-services" class="btn-get-started scrollto">Find Out More</a>
+        
+      </div>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+     <!-- ======= Counts Section ======= -->
+    <section id="counts" class="counts">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6">
+            <div class="count-box">
+              <i class="bi bi-emoji-smile"></i>
+              
+       
+                <span data-purecounter-start="0" data-purecounter-end="42.1" data-purecounter-duration="1" class="purecounter"></span>
+            
+              <p>Million Laptops Sold Annually In The United States</p>
             </div>
-            <!-- /.row -->
-          
           </div>
-        </section>
-        <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container px-4"><p class="m-0 text-center text-white">Copyright &copy; AI Camp 2022</p></div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="/static/js/scripts.js"></script>
-    </body>
+
+          <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
+            <div class="count-box">
+              <i class="bi bi-journal-richtext"></i>
+              <span data-purecounter-start="0" data-purecounter-end="102" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Billion Worth of Laptops Sold Globally</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+            <div class="count-box">
+              <i class="bi bi-headset"></i>
+              <span data-purecounter-start="0" data-purecounter-end="341053 " data-purecounter-duration="1" class="purecounter"></span>
+              <p>Laptops Shipped Annually in The World</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+            <div class="count-box">
+              <i class="bi bi-people"></i>
+              <span data-purecounter-start="0" data-purecounter-end="7" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Featured major laptop manufacturing companies </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Counts Section -->
+    
+    
+    
+    
+<!-- ======= Featured Services Section ======= -->
+    <section id="featured-services" class="featured-services">
+      <div class="container" data-aos="fade-up">
+       <div class="section-title">
+          <h2>About</h2>
+          <h3>What is this project <span> About </span> ? </h3>
+
+      </div>
+
+        <div class="row">
+          <div class="col-md-6 col-lg-4 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+              <div class="icon"><i class="bi bi-info-square-fill"></i></div>
+              <h4 class="title"><a href="">What is this project?</a></h4>
+              <p class="description">Our project is designed to predict the price of a laptop based on their different features such as size, GPU, CPU, memory space, operating system, and company. This product will ultimately make buying a laptop a quick and easy process that will fit the needs of the consumer.</p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
+              <div class="icon"><i class="bi bi-trophy"></i></div>
+              <h4 class="title"><a href="">What is the ultimate goal?</a></h4>
+              <p class="description">The ultimate goal of this product is to predict laptop prices so that the consumer that uses it can find the best match based on their preferences.</p>
+            </div>
+          </div>
+         
+
+          <div class="col-md-6 col-lg-4 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
+              <div class="icon"><i class="bi bi-clipboard-data-fill"></i></div>
+              <h4 class="title"><a href="">What is our data set?</a></h4>
+              <p class="description">Our data set listed out different computer products from various companies based on the features such as CPU and Screen Length.</p>
+            </div>
+          </div>
+        </div>
+                 <br>
+
+        <div class="row">
+          <div class="col-md-6 col-lg-4 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+              <div class="icon"><i class="bi bi-graph-up"></i></div>
+              <h4 class="title"><a href="">Classification or Regression?</a></h4>
+              <p class="description">Our project is a regression model  because it is predicting laptop price, which is a continuous value.</p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
+              <div class="icon"><i class="bi bi-ui-checks"></i></div>
+              <h4 class="title"><a href="">What is our MVP?</a></h4>
+              <p class="description">A website that takes user preferences for laptops. The website will then use those variables to find laptop prices that are within a certain price range.</p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
+              <div class="icon"><i class="bi bi-cash-coin"></i></div>
+              <h4 class="title"><a href="">Why does this matter?</a></h4>
+              <p class="description">If someone is planning to buy a laptop in the near future, this can be a simple and useful tool to get an estimated price for the laptop.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Featured Services Section -->
+
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Data Cleansing</h2>
+          <h3>Why <span>Data Cleansing?</span></h3>
+          <p>Clean data increases productivity, accuracy and ensures quality results.</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-eraser-fill"></i></div>
+              <h4><a href="">Removing Unwanted Columns</a></h4>
+              <p>Sometimes, dataframes can have columns that have little to no use for the final product that we are making. This is why we need to remove these unwanted columns.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-trash-fill"></i></div>
+              <h4><a href="">Dealing with Null Values</a></h4>
+              <p>Removing data that has no value, aka Null values. A Null represents an unknown or a missing value that affects the quality of the operations of processing, classification, or any other data analysis.
+</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="300">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-file-earmark-bar-graph"></i></div>
+              <h4><a href="">Transforming Data</a></h4>
+              <p>Few columns in our data required transformations such RAM, Weigth , CPU etc. For example in Ram column , we change 8GB to 8 , 16GB to 16 etc..
+</p>
+            </div>
+          </div>
+          
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="300">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-file-earmark-bar-graph"></i></div>
+              <h4><a href="">Encoding Data</a></h4>
+              <p>Our data contained both numerical and categorical data, but the machine learning model used was unable to comprehend categorical data. This made it necessary for us to encode our data, transforming categorical data into numerical zeros and ones, allowing the machine learning model to understand the data.
+</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <section id="portfolio" class="features">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Exploratory Data Analysis</h2>
+          <h3>Why <span> EDA </span> is required ? </h3>
+        </div>
+          <p>Exploratory data analysis (EDA) involves using statistics and visualizations to analyze and identify trends in data sets. Exploratory data analysis is essential for any business. It allows data scientists to analyze the data before coming to any assumption. It ensures that the results produced are valid and applicable to business outcomes and goals. It helps us identify errors, outliers, and relationships in the data.</p>
+         <br>
+
+        <ul class="nav nav-tabs row d-flex">
+          <li class="nav-item col-2">
+            <a class="nav-link active show" data-bs-toggle="tab" href="#tab-1">
+              <i class="ri-team-fill"></i>
+              <h4 class="d-none d-lg-block"> OS</h4>
+            </a>
+          </li>
+          <li class="nav-item col-2">
+            <a class="nav-link" data-bs-toggle="tab" href="#tab-2">
+              <i class="ri-body-scan-line"></i>
+              <h4 class="d-none d-lg-block">Companies</h4>
+            </a>
+          </li>
+          <li class="nav-item col-2">
+            <a class="nav-link" data-bs-toggle="tab" href="#tab-3">
+              <i class="ri-sun-line"></i>
+              <h4 class="d-none d-lg-block">CPU</h4>
+            </a>
+          </li>
+          <li class="nav-item col-2">
+            <a class="nav-link" data-bs-toggle="tab" href="#tab-4">
+                <i class="ri-user-heart-fill"></i>
+              <h4 class="d-none d-lg-block">GPU</h4>
+            </a>
+          </li>
+          <li class="nav-item col-2">
+            <a class="nav-link" data-bs-toggle="tab" href="#tab-5">
+              <i class="ri-team-fill"></i>
+              <h4 class="d-none d-lg-block">Ram</h4>
+            </a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane active show" id="tab-1">
+            <div class="row">
+              <div class="col-lg-4 order-2 order-lg-1 mt-3 mt-lg-0">
+                <h3>Is there any relation between laptop price and operating systems?  </h3>
+                <p class="fst-italic">
+                  What we observed from the plot
+                </p>
+               
+                
+                
+                <ul>
+                  <li><i class="ri-check-double-line"></i> Laptops with MacOS have a greater median cost compared to any other laptops.</li>
+                  <li><i class="ri-check-double-line"></i> Laptops with Android Operating systems are less costly compared to other operating system.</li>
+                  <li><i class="ri-check-double-line"></i> The range of price is greatest for Windows 10 laptop and least for Android laptops.</li>
+                </ul>
+              </div>
+              <div class="col-lg-8 order-1 order-lg-2 text-center">
+<!--                <img src="static/assets/img/portfolio/plot3.html" alt="" class="img-fluid">-->
+                <object data="static/assets/img/portfolio/price_by_ops.html"
+                                        width="1000"
+                                        height="550"
+                                        type="text/html">
+                </object>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="tab-2">
+            <div class="row">
+              <div class="col-lg-4 order-2 order-lg-1 mt-3 mt-lg-0">
+                <h3>Is there any relation between laptop price and the companies that made them?</h3>
+                <p class="fst-italic">
+                  What we observed from the plot
+                </p>
+                <ul>
+                  <li><i class="ri-check-double-line"></i> The company with the highest average price for laptops is Razer with 3346.1 euros.</li>
+                  <li><i class="ri-check-double-line"></i> The company with the lowest average price for laptops is Vero with 217.4 euros.</li>
+                  <li><i class="ri-check-double-line"></i> The company closest to the middle average price(1673.05 euros) for laptops is Google with 1677.7 euros.</li>
+                </ul>
+              </div>
+              <div class="col-lg-8 order-1 order-lg-2 text-center">
+                  <object data="static/assets/img/portfolio/pricebycompany.html"
+                                        width="1000"
+                                        height="550"
+                                        type="text/html">
+                </object>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="tab-3">
+            <div class="row">
+              <div class="col-lg-4 order-2 order-lg-1 mt-3 mt-lg-0">
+                <h3>Is there any relation between laptop price and CPU?</h3>
+                <p class="fst-italic">
+                  What we observed from the plot
+                </p>
+                <ul>
+                  <li><i class="ri-check-double-line"></i> Laptops with Intel Core 17  have a greater median cost compared to any other laptops.</li>
+                  <li><i class="ri-check-double-line"></i> Laptops with Intel Other (Intel Atom ,Celeron ) are less costly compared to other CPUs.</li>
+                  <li><i class="ri-check-double-line"></i> The range of price is greatest for Intel Core 17. It is least for Intel Core 13 and laptops in the other category.</li>
+                </ul>
+                <p class="fst-italic">
+                  
+                </p>
+              </div>
+              <div class="col-lg-8 order-1 order-lg-2 text-center">
+                <object data="static/assets/img/portfolio/pricevscpu.html"
+                                        width="1000"
+                                        height="550"
+                                        type="text/html">
+                  </object>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="tab-4">
+            <div class="row">
+              <div class="col-lg-4 order-2 order-lg-1 mt-3 mt-lg-0">
+                <h3>Is there any relation between laptop price and GPU?</h3>
+                <p class="fst-italic">
+                What we observed from the plot
+                </p>
+                <ul>
+                  <li><i class="ri-check-double-line"></i> Laptops with Nvidia Quadro/GTX have a greater median cost compared to any other laptops.</li>
+                  <li><i class="ri-check-double-line"></i> Laptops with ARM to AMD are less costly compared to other GPU’s.</li>
+                  <li><i class="ri-check-double-line"></i> The range of price is greatest for Nvidia GPU and least for ARM and AMD GPU.</li>
+                </ul>
+              </div>
+              <div class="col-lg-8 order-1 order-lg-2 text-center">
+                <object data="static/assets/img/portfolio/pricevsgpu.html"
+                                        width="1000"
+                                        height="550"
+                                        type="text/html">
+                   
+                  </object>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="tab-5">
+            <div class="row">
+              <div class="col-lg-4 order-2 order-lg-1 mt-3 mt-lg-0">
+                <h3>Is there any relation between laptop price and the ram of the computer?</h3>
+                <p class="fst-italic">
+                  What we observed from the plot
+                </p>
+                <ul>
+                  <li><i class="ri-check-double-line"></i> Laptops with a Ram of 32 have the highest median price at 3147 euros.</li>
+                  <li><i class="ri-check-double-line"></i> Laptops with a Ram of 2 have the lowest median price at 234 euros.</li>
+                  <li><i class="ri-check-double-line"></i> The range of price is greatest for laptops with a Ram of 32, and the smallest for laptops with a Ram of 64.</li>
+                </ul>
+              </div>
+              <div class="col-lg-8 order-1 order-lg-2 text-center">
+                  <object data="static/assets/img/portfolio/pricebyram.html"
+                                        width="1000"
+                                        height="550"
+                                        type="text/html">
+                </object>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Features Section -->
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    <!-- ======= Services Section ======= -->
+    
+    <section id="mlmodels" class="services">
+      <div class="section-title">
+          <h2>Machine Leaning Pipeline</h2>
+          <h3>What is <span>Machine Learning Pipeline ?</span></h3>
+          <p>Machine Learning Pipeline is a process of preparing data in order for it to be interpreted in a machine learning model. This process includes several steps such as pre-processing, cleaning, model implementation, and finally predictions</p>
+      </div>
+      
+      <div class="container" data-aos="fade-up">
+            <div class="container">
+            <h4>Machine Learning Pipeline</h4>
+              <p>
+ 
+              </p>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="main-timeline">
+                        <a href="#" class="timeline">
+                            <div class="timeline-icon"><i class="bi bi-trash"></i></div>
+                            <div class="timeline-content">
+                                <h3 class="title">Data Cleansing / Feature Engineering</h3>
+                                <p class="description">
+                                    In order to clean our data-set, we have taken several steps including dropping unnecessary columns, removing null data and encoding the data.
+                                </p>
+                            </div>
+                        </a>
+                        <a href="#" class="timeline">
+                            <div class="timeline-icon"><i class="bi bi-terminal-split"></i></div>
+                            <div class="timeline-content">
+                              <h3 class="title">Train : Test Split</h3>
+                                <p class="description">
+                                    In our supervised learning model, we want to split what data we have into separate train and test groups. The way our team decided to work with this type of algorithm was in order to simulate the most accurate prediction because of the complexity the information in a data turned out becoming; henceforth, splitting 80% of our data into the train group and 20% into the test group.
+                                </p>
+                            </div>
+                        </a>
+                        <a href="#" class="timeline">
+                            <div class="timeline-icon"><i class="bi bi-file-earmark-code-fill"></i></div>
+                            <div class="timeline-content">
+                                <h3 class="title">Imputation / Encoding</h3>
+                                <p class="description">
+                                    Instead of deleting whole columns just because of null values which would result in large loss of data, we used imputation and encoding to deal with the missing data. For example, we used the average of the columns to replace null values in instances of missing numerical data. Furthermore, we used the most frequently occurring value to replace missing categorical data.
+                                </p>
+                            </div>
+                        </a>
+                        <a href="#" class="timeline">
+                            <div class="timeline-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="timeline-content">
+                                <h3 class="title">Model Building</h3>
+                                <p class="description">
+                                    The particular models we want to display our conducted machine learning algorithms are Linear Regression, Random Forest and XGBoost.
+                                </p>
+                            </div>
+                        </a>
+                      <a href="#" class="timeline">
+                            <div class="timeline-icon"><i class="bi bi-gear-wide-connected"></i></div>
+                            <div class="timeline-content">
+                                <h3 class="title">Fine Tuning : GridSearchCV</h3>
+                                <p class="description">
+                                    Finally, we fine tuned our data through the GridSearchCV function which searches through a given set of parameter values and selects whichever combination gives the most correlation. This allowed us to get the best possible hyperparameter values in each of the machine learning models we incorporated.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <br>
+        <br>
+        
+        <div class="section-title">
+          <h2>Our Models</h2>
+        </div>
+        
+        <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon-box">
+
+              <img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Linear_regression.svg/400px-Linear_regression.svg.png" width = "250">
+              <h4><a href="">Linear Regression</a></h4>
+              <p>Linear Regression is a type of machine learning model that uses the correlation of an X variable (input) and tries to determine the dependent Y variable (output). Using given data points, a straight line is created of best fit to predict a trend on how the data will continue in future data points. Through training, linear regression decreases the distance between the actual data points and the predictions, to as small as possible. Variables are curated with number of valid cases, mean and standard deviation. Then, each model considers regression coefficients, and partial correlations. This data is displayed as scatter plots. Any categorical data found in the regression algorithm must be coded to binary (dummy) variables. For each value of the independent variable, the distribution of the dependent variable must be constant.</p><br>
+           
+            <ul class="list-group">
+              <li class="list-group-item list-group-item-warning">R² Score :0.744 </li>
+              <li class="list-group-item list-group-item-secondary">RMSE :388.19 </li>
+              <li class="list-group-item list-group-item-success">MAPE : </li>
+            </ul>
+            </div>
+          </div>
+
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
+            <div class="icon-box">
+              <img src = "https://miro.medium.com/max/1400/1*ZFuMI_HrI3jt2Wlay73IUQ.png" width = "250">
+              <h4><a href="">RandomForest Regression</a></h4>
+              <p>Random Forest uses a technique called bagging. This method uses a multitude of decision trees to release a prediction for the output. Random Forest models contain several working parts that make the way this model computes data uniquely. In Decision Trees, they start with the root of the tree/test sample input and follow branch resembling splits based on variable outcomes until a leaf node is reached and a results is given. In Ensemble Learning, multiple models are trained over the same test sample input data to which the the results are averaged between each model to finding a the best predictive result. The final method is Bootstrapping, this machine learning algorithmic processes sampled subsets in our data-set randomly working with GridSearchCV to obtain results based upon preset parameters.
+</p><br>
+               <ul class="list-group">
+              <li class="list-group-item list-group-item-warning">R² Score :0.7795 </li>
+              <li class="list-group-item list-group-item-secondary">RMSE :350.26 </li>
+              <li class="list-group-item list-group-item-success">MAPE : </li>
+            </ul>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="300">
+            <div class="icon-box">
+             <img src = "https://media.geeksforgeeks.org/wp-content/uploads/20210707140912/Bagging.png" width = "250">
+              <h4><a href="">XGBoost Regression</a></h4>
+              <p>A loss function in its optimization and use will be dependent on the type of problem being solved. Decision trees are used as the weak learner in gradient boosting process. An additive model adds weak learners to minimize the loss function allowing number trees to be added one at a time and existing trees in the model are not changed. Ensembles are constructed from decision tree models. Trees are added one at a time to the ensemble and fit to correct the prediction errors made by prior models in a type of ensemble machine learning model referred to as boosting. Models are fit using any arbitrary differentiable loss function and gradient descent optimization algorithm through which this is called gradient boosting. Open-source implementations of the extreme gradient boosting algorithm designed to be both computationally efficient and highly effective.
+</p><br>
+             <ul class="list-group">
+              <li class="list-group-item list-group-item-warning">R² Score :0.7838 </li>
+              <li class="list-group-item list-group-item-secondary">RMSE :330.30 </li>
+              <li class="list-group-item list-group-item-success">MAPE : </li>
+            </ul>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+    
+    
+    
+    
+    <section class="page-section bg-white text-black" id="predictions">
+      <div class="section-title">
+          <h2>Model Predictions</h2>
+          <p>Description goes here......</p>
+        <br>
+      
+      
+      <div class="row">
+        <div class="col-lg-12 ">
+          
+          <form action="" method="post" >
+            <div class="row">
+                 <div class = "input-field col s4">
+                    <label for="company"><b>Company</b></label>
+                    <br>
+                    <input list = "company" name = "company" type = "text" placeholder="Enter company" class="validate" value = "Apple">
+                      <datalist id="company">
+                        <option value="Apple">
+                        <option value="Acer">
+                        <option value="HP">
+                        <option value="Asus">
+                        <option value="Dell">
+                        <option value="Lenovo">
+                        <option value="Chuwi">
+                        <option value="Microsoft">
+                        <option value="MSI">
+                        <option value="Toshiba">
+                        <option value="Huawei">
+                        <option value="Xiaomi">
+                        <option value="Vero">
+                        <option value="Razer">
+                        <option value="Mediacom">
+                        <option value="Samsung">
+                        <option value="Google">
+                        <option value="Fujitsu">
+                        <option value="LG">
+                      </datalist>
+
+              </div>
+              
+               <div class = "input-field col s4">
+                  <label for="typename"><b>Type Name</b></label>
+                  <br>
+                  <input list = "typename" name = "typename" type = "text" placeholder="Enter Type" class="validate" value = "Ultrabook">
+                    <datalist id="typename">
+                      <option value="Ultrabook">
+                      <option value="Notebook">
+                      <option value="Netbook">
+                      <option value="Gaming">
+                      <option value="2 in 1 Convertible">
+                      <option value="Workstation">
+                    </datalist>
+
+              </div>
+
+               <div class = "input-field col s4">
+                  <label class="label-block" for="inches"><b>Screen Length</b></label><br>
+                 <input list = "inches" name = "inches" type = "number" placeholder="Enter Inches" step="0.01" class="validate" value = "14">
+              </div>
+              
+            </div>
+
+            <br>
+
+            <div class="row">
+              
+               <div class = "input-field col s4">
+                  <label for="screenresolution"><b>Screen Resolution</b></label>
+                  <br>
+                  <input list = "screenresolution" name = "screenresolution" type = "text" placeholder="Enter Resolution" class="validate" value = "1440x900">
+                    <datalist id="screenresolution">
+                        <option value="2560x1600">
+                        <option value="1440x900">
+                        <option value="1920x1080">
+                        <option value="2880x1800">
+                        <option value="1366x768">
+                        <option value="2304x1440">
+                        <option value="3200x1800">
+                        <option value="1920x1200">
+                        <option value="2256x1504">
+                        <option value="3840x2160">
+                        <option value="2160x1440">
+                        <option value="2560x1440">
+                        <option value="1600x900">
+                        <option value="2736x1824">
+                        <option value="2400x1600">
+                    </datalist>
+              </div>
+              
+              
+              
+                 <div class = "input-field col s4">
+                   <label  class="label-block" for="CPU"><b>CPU</b></label><br>
+                    <input list = "CPU" name = "CPU" type = "text" placeholder="CPU Model" class="validate" value = "Intel Core i7">
+                      <datalist id="CPU">
+                      <option value="Intel Core i5">
+                      <option value="Intel Core i7">
+                      <option value="AMD">
+                      <option value="Intel Core i3">
+                      <option value="Intel Other">
+                      <option value="Other">
+                      </datalist>
+                </div>
+              
+              
+                 <div class = "input-field col s4">
+                    <label for="Ram"><b>Ram</b></label>
+                    <br>
+                    <input id = "Ram" name = "Ram" type = "number" placeholder="Enter Ram" class="validate" value ="8">
+                 </div>
+              
+              
+
+              
+
+
+            </div>
+
+            <br>
+
+            <div class="row">
+              
+               <div class = "input-field col s4">
+                    <label for="Memory"><b>Memory</b></label>
+                    <br>
+                    <input id = "Memory" name = "Memory" type = "number" placeholder="Enter Memory" class="validate" value ="128">
+              </div>
+              
+
+              
+              <div class = "input-field col s4">
+                      <label for="gpu"><b>GPU</b></label><br>
+                      <input list = "gpu" name = "gpu" type = "text" placeholder="Enter GPU" class="validate" value = "Intel Graphics">
+                      <datalist id="gpu">
+                        <option value="Intel Graphics">
+                        <option value="AMD">
+                        <option value="Nvidia GeForce">
+                        <option value="Nvidia Quadro/GTX">
+                        <option value="ARM">
+                      </datalist>
+                </div>
+              
+                 <div class = "input-field col s4">
+
+                    <label class="label-block" for="opsys"><b>Operating System</b></label><br>
+                     <input list = "opsys" name = "opsys" type = "text" placeholder="Enter operating system" class="validate" value = "Windows 10">
+                      <datalist id="opsys">
+                        <option value="macOS">
+                        <option value="No OS">
+                        <option value="Windows 10">
+                        <option value="Windows 10 S">
+                        <option value="Windows 7">
+                        <option value="Mac OS X">
+                        <option value="Linux">
+                        <option value="Android">
+                        <option value="Chrome OS">
+                      </datalist>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class = "input-field col s4">
+
+                </div>
+
+                 <div class = "input-field col s4">
+                     <label for="Weight"><b>Weight :</b></label><br>
+                      <input list = "Weight" name = "Weight" type = "number" step="0.01" placeholder="Weight" class="validate" value = "1.37">
+                </div>
+                          
+                <div class = "input-field col s4">
+
+                </div>
+
+            </div>
+
+            <br>
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-l text-uppercase">Predict</button>
+                <br>
+            </div>
+            <br>
+            <table class="table table-white">
+                {{df_html | safe}}
+            </table>
+            <h5>{{values}}</h5>
+
+          </form>
+
+        </div>
+
+      </div>
+      </div>
+      
+      
+    </section>
+    
+    
+    
+    <section id="team" class="testimonials">
+      <div class="container" data-aos="zoom-in">
+        <div class="section-title">
+          <h2>Team</h2>
+        </div>
+
+        <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
+          <div class="swiper-wrapper">
+            
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="" class="testimonial-img" alt="">
+                <h3>Serenity</h3>
+                <h4>Group Member</h4>
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  Description
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+            
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="https://th.bing.com/th/id/R.563829af01595bbddcca19d65bfd741e?rik=cpVeiymzgNaZAg&riu=http%3a%2f%2fgifimage.net%2fwp-content%2fuploads%2f2017%2f09%2fakame-gif-1.gif&ehk=pR2nbZ5zGheNMPTXh4%2f2ezoGfVBmN5ZNcsJfuJXiPtk%3d&risl=&pid=ImgRaw&r=0" class="testimonial-img" alt="">
+                <h3>Emma Lu</h3>
+                <h4>Group Member</h4>
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  I'm an upcoming senior at Temescal Canyon Highschool. I like reading and watching anime. And also coding.
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+            
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="https://c.tenor.com/xzNHxtBqaAQAAAAC/batman-batman-the-animated-series.gif" class="testimonial-img" alt="">
+                <h3>Thomas Dao</h3>
+                <h4>Group Member</h4>
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  Im about to be a junior at Cleveland Charter Highschool next year. My favorite hobbies are combat sports, video games, and fishing
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+            
+            
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="https://lh3.googleusercontent.com/a-/AFdZucqV1L9N4WsRFoP5dDEraykJWQ3gAb3W_-r9rjrq=s288-p-rw-no" class="testimonial-img" alt="">
+                <h3>Clive Mendoza</h3>
+                <h4>Group Member</h4>
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  I am an upcoming Junior at Northside College Preparatory High School. My hobbies: gaming, exercising and listening and making my own music.
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+            
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/static/twitter-image.png"class="testimonial-img" alt="">
+                <h3>Mathias Miranda</h3>
+                <h4>Group Member</h4>
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  I'm an upcoming sophomore at Sato Academy, I am a huge football fan and I like playing sports.
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="" class="testimonial-img" alt="">
+                <h3>Dania</h3>
+                <h4>Group Member</h4>
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  Description
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+
+
+
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+
+      </div>
+    </section><!-- End Testimonials Section -->
+    
+    
+    
+
+    
+    
+
+    
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <div class="container py-4">
+      <div class="copyright">
+        &copy; Copyright <strong><span> AI CAMP </span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bizland-bootstrap-business-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="static/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="static/assets/vendor/aos/aos.js"></script>
+  <script src="static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="static/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="static/assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="static/assets/vendor/php-email-form/validate.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="static/assets/js/main.js"></script>
+
+</body>
+
 </html>
-2>
